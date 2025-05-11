@@ -24,13 +24,21 @@ export default function Dashboard() {
     try {
       setIsLoading(true);
       setError("");
+      console.log('Dashboard: Fetching posts...');
       const response = await fetch("/api/posts");
+      console.log('Dashboard: Response status:', response.status);
+      
       if (!response.ok) {
-        throw new Error("Failed to fetch posts");
+        const errorData = await response.json();
+        console.error('Dashboard: Error response:', errorData);
+        throw new Error(errorData.details || "Failed to fetch posts");
       }
+      
       const data = await response.json();
+      console.log('Dashboard: Received posts:', data.length);
       setPosts(data);
     } catch (err: any) {
+      console.error('Dashboard: Error loading posts:', err);
       setError(err.message || "Failed to load posts");
     } finally {
       setIsLoading(false);
