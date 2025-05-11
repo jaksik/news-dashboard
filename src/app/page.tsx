@@ -12,7 +12,7 @@ export default async function Home() {
           href="/auth/signin"
           className="rounded-lg bg-blue-500 px-6 py-3 text-white hover:bg-blue-600"
         >
-          Sign in to get started
+          Sign in to start
         </Link>
       ) : (
         <Link
