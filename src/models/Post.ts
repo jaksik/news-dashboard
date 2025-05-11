@@ -1,5 +1,18 @@
 import mongoose from 'mongoose';
 
+export interface IPost {
+  _id: mongoose.Types.ObjectId;
+  title: string;
+  link: string;
+  image?: string;
+  source: string;
+  datetime: Date;
+  time: string;
+  articleType: string;
+  searchTerm: string;
+  createdAt: Date;
+}
+
 const PostSchema = new mongoose.Schema({
   title: {
     type: String,
@@ -39,4 +52,4 @@ const PostSchema = new mongoose.Schema({
   }
 });
 
-export default mongoose.models.Post || mongoose.model('Post', PostSchema);
+export default mongoose.models.articles || mongoose.model('articles', PostSchema);
