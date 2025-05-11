@@ -1,5 +1,18 @@
 import mongoose from 'mongoose';
 
+export interface IPost {
+  _id: mongoose.Types.ObjectId;
+  title: string;
+  link: string;
+  image?: string;
+  source: string;
+  datetime: Date;
+  time: string;
+  articleType: string;
+  searchTerm: string;
+  createdAt: Date;
+}
+
 const PostSchema = new mongoose.Schema({
   title: {
     type: String,

@@ -6,10 +6,21 @@ if (!process.env.MONGODB_URI) {
 
 const MONGODB_URI = process.env.MONGODB_URI;
 
-let cached = (global as any).mongoose;
+interface GlobalMongoose {
+  conn: typeof mongoose | null;
+  promise: Promise<typeof mongoose> | null;
+}
+
+interface CustomGlobal extends Global {
+  mongoose?: GlobalMongoose;
+}
+
+declare const global: CustomGlobal;
+
+let cached = global.mongoose || { conn: null, promise: null };
 
 if (!cached) {
-  cached = (global as any).mongoose = { conn: null, promise: null };
+  cached = global.mongoose = { conn: null, promise: null };
 }
 
 export async function dbConnect() {
@@ -31,12 +42,11 @@ export async function dbConnect() {
         console.log('Successfully connected to MongoDB');
         return mongoose;
       });
-    } catch (error: any) {
+    } catch (error: unknown) {
+      const err = error as Error;
       console.error('MongoDB connection error details:', {
-        message: error.message,
-        code: error.code,
-        codeName: error.codeName,
-        name: error.name
+        message: err.message,
+        name: err.name
       });
       throw error;
     }
@@ -44,15 +54,14 @@ export async function dbConnect() {
 
   try {
     cached.conn = await cached.promise;
-  } catch (e: any) {
+  } catch (error: unknown) {
+    const err = error as Error;
     console.error('Error establishing MongoDB connection:', {
-      message: e.message,
-      code: e.code,
-      codeName: e.codeName,
-      name: e.name
+      message: err.message,
+      name: err.name
     });
     cached.promise = null;
-    throw e;
+    throw error;
   }
 
   return cached.conn;

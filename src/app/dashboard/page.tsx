@@ -5,10 +5,11 @@ import { redirect } from "next/navigation";
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { IPost } from '@/models/Post';
 
 export default function Dashboard() {
   const { data: session, status } = useSession();
-  const [posts, setPosts] = useState<any[]>([]);
+  const [posts, setPosts] = useState<IPost[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -37,7 +38,8 @@ export default function Dashboard() {
       const data = await response.json();
       console.log('Dashboard: Received posts:', data.length);
       setPosts(data);
-    } catch (err: any) {
+    } catch (error: unknown) {
+      const err = error as Error;
       console.error('Dashboard: Error loading posts:', err);
       setError(err.message || "Failed to load posts");
     } finally {
@@ -67,7 +69,7 @@ export default function Dashboard() {
       {posts.length > 0 && (
         <div className="grid gap-8">
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {posts.map((post: any) => (
+            {posts.map((post: IPost) => (
               <Link
                 href={post.link}
                 target="_blank"

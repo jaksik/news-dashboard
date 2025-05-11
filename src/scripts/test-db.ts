@@ -22,12 +22,13 @@ async function testConnection() {
     
     await mongoose.disconnect();
     console.log('Successfully disconnected');
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const err = error as Error & { code?: string };
     console.error('Connection test failed with details:', {
-      message: error.message,
-      code: error.code,
-      name: error.name,
-      stack: error.stack
+      message: err.message,
+      code: err.code,
+      name: err.name,
+      stack: err.stack
     });
   } finally {
     process.exit();
