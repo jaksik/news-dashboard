@@ -48,10 +48,11 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="p-8 max-w-7xl mx-auto">
+    <div className="p-8 max-w-5xl mx-auto">
       <div className="mb-8">
         <h1 className="text-2xl font-bold mb-4">News Dashboard</h1>
         <p className="text-gray-600">Welcome, {session?.user?.name}!</p>
+
         <div className="mt-4">
           <button
             onClick={loadPosts}
@@ -65,20 +66,19 @@ export default function Dashboard() {
           <p className="mt-4 text-red-500">{error}</p>
         )}
       </div>
-
       {posts.length > 0 && (
-        <div className="grid gap-8">
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {posts.map((post: IPost) => (
-              <Link
-                href={post.link}
-                target="_blank"
-                rel="noopener noreferrer"
-                key={post._id.toString()}
-                className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-200"
-              >
+        <div className="space-y-4 max-w-3xl mx-auto">
+          {posts.map((post: IPost) => (
+            <Link
+              href={post.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              key={post._id.toString()}
+              className="block bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-200 w-full"
+            >
+              <div className="flex w-full">
                 {post.image && (
-                  <div className="relative w-full h-48">
+                  <div className="relative w-34 h-25 flex-shrink-0">
                     <Image
                       src={post.image}
                       alt={post.title}
@@ -87,28 +87,25 @@ export default function Dashboard() {
                     />
                   </div>
                 )}
-                <div className="p-4">
+                <div className="flex-1 p-6">
                   <div className="flex items-center justify-between mb-2">
-                    <span className="text-sm font-medium text-blue-600">
-                      {post.source}
-                    </span>
-                    <span className="text-sm text-gray-500">{post.time}</span>
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs font-medium text-blue-600">
+                        {post.source}
+                      </span>
+                      <span className="text-xs px-2 py-1 bg-gray-100 rounded-full text-gray-600">
+                        {post.searchTerm}
+                      </span>
+                    </div>
+                    <span className="text-xs text-gray-500">{post.time}</span>
                   </div>
-                  <h3 className="text-lg font-semibold mb-2 line-clamp-2">
+                  <span className="text-sm font-small leading-relaxed text-gray-800 mb-2">
                     {post.title}
-                  </h3>
-                  <div className="flex items-center mt-4">
-                    <span className="text-xs px-2 py-1 bg-gray-100 rounded-full text-gray-600">
-                      {post.searchTerm}
                     </span>
-                    <span className="text-xs px-2 py-1 bg-gray-100 rounded-full text-gray-600 ml-2">
-                      {post.articleType}
-                    </span>
-                  </div>
                 </div>
-              </Link>
-            ))}
-          </div>
+              </div>
+            </Link>
+          ))}
         </div>
       )}
     </div>
