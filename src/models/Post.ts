@@ -11,6 +11,7 @@ export interface IPost {
   articleType: string;
   searchTerm: string;
   createdAt: Date;
+  used: boolean;
 }
 
 const PostSchema = new mongoose.Schema({
@@ -49,6 +50,10 @@ const PostSchema = new mongoose.Schema({
   createdAt: {
     type: Date,
     default: Date.now,
+  },
+  used: {
+    type: Boolean,
+    default: false,
   }
 });
 
