@@ -8,7 +8,7 @@ import Link from "next/link";
 import { IPost } from '@/models/Post';
 
 export default function Dashboard() {
-  const { data: session, status } = useSession();
+  const { status } = useSession();
   const [posts, setPosts] = useState<IPost[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
@@ -160,163 +160,178 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="p-8 max-w-7xl mx-auto">
-      <div className="mb-8">
-        <div className="flex justify-between items-center mb-6">
-          <div>
-            <h1 className="text-2xl font-bold mb-2">News Dashboard</h1>
-            <p className="text-gray-600">Welcome, {session?.user?.name}!</p>
-          </div>
+    <div className="mx-auto max-w-screen-2xl p-4 md:p-6 2xl:p-10">
+      <div className="mb-6">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <h2 className="text-title-md2 font-semibold text-black dark:text-white">
+            News Dashboard
+          </h2>
+          <nav>
+            <ol className="flex items-center gap-2">
+              <li>
+                <button 
+                  onClick={loadPosts}
+                  disabled={isLoading}
+                  className="button-primary"
+                >
+                  {isLoading ? (
+                    <span className="flex items-center gap-2">
+                      <svg className="h-5 w-5 animate-spin" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                      </svg>
+                      Loading...
+                    </span>
+                  ) : (
+                    'Refresh Articles'
+                  )}
+                </button>
+              </li>
+            </ol>
+          </nav>
         </div>
-
-        <div className="bg-white p-4 rounded-lg shadow-sm mb-6">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Search Term</label>
-              <select
-                className="w-full rounded-md border border-gray-300 p-2"
-                value={filters.searchTerm}
-                onChange={(e) => handleFilterChange('searchTerm', e.target.value)}
-              >
-                <option value="">All Terms</option>
-                {searchTerms.map(term => (
-                  <option key={term} value={term}>{term}</option>
-                ))}
-              </select>
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Article Status</label>
-              <select
-                className="w-full rounded-md border border-gray-300 p-2"
-                value={filters.usedFilter}
-                onChange={(e) => handleFilterChange('usedFilter', e.target.value)}
-              >
-                <option value="all">All Articles</option>
-                <option value="unused">Unused Only</option>
-                <option value="used">Used Only</option>
-              </select>
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Number of Results</label>
-              <select
-                className="w-full rounded-md border border-gray-300 p-2"
-                value={filters.numResults}
-                onChange={(e) => handleFilterChange('numResults', e.target.value)}
-              >
-                <option value="5">5 Articles</option>
-                <option value="10">10 Articles</option>
-                <option value="15">15 Articles</option>
-                <option value="20">20 Articles</option>
-                <option value="25">25 Articles</option>
-                <option value="25">25 Articles</option>
-                <option value="50">50 Articles</option>
-                <option value="100">100 Articles</option>
-              </select>
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Date Range</label>
-              <select
-                className="w-full rounded-md border border-gray-300 p-2"
-                value={filters.dateRange}
-                onChange={(e) => handleFilterChange('dateRange', e.target.value)}
-              >
-                <option value="all">All Time</option>
-                <option value="today">Today</option>
-                <option value="week">Past Week</option>
-                <option value="month">Past Month</option>
-              </select>
-            </div>
-          </div>
-          <div className="mt-4 flex justify-between items-center">
-            <div className="space-x-2">
-              <button
-                onClick={clearFilters}
-                className="text-sm text-gray-600 hover:text-gray-800"
-              >
-                Clear Filters
-              </button>
-              <button
-                onClick={loadPosts}
-                disabled={isLoading}
-                className="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 disabled:bg-blue-300 transition-colors ml-2"
-              >
-                {isLoading ? "Loading..." : "Load Articles"}
-              </button>
-            </div>
-            {posts.length > 0 && (
-              <div className="text-sm text-gray-600">
-                Found {posts.length} articles
-              </div>
-            )}
-          </div>
-        </div>
-
-        {error && (
-          <p className="mt-4 text-red-500">{error}</p>
-        )}
       </div>
 
+      <div className="card p-4 md:p-6 2xl:p-7.5">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
+          <div>
+            <label className="mb-2.5 block font-medium text-black dark:text-white">Search Term</label>
+            <select
+              className="input-style"
+              value={filters.searchTerm}
+              onChange={(e) => handleFilterChange('searchTerm', e.target.value)}
+            >
+              <option value="">All Terms</option>
+              {searchTerms.map(term => (
+                <option key={term} value={term}>{term}</option>
+              ))}
+            </select>
+          </div>
+          <div>
+            <label className="mb-2.5 block font-medium text-black dark:text-white">Article Status</label>
+            <select
+              className="input-style"
+              value={filters.usedFilter}
+              onChange={(e) => handleFilterChange('usedFilter', e.target.value)}
+            >
+              <option value="all">All Articles</option>
+              <option value="unused">Unused Only</option>
+              <option value="used">Used Only</option>
+            </select>
+          </div>
+          <div>
+            <label className="mb-2.5 block font-medium text-black dark:text-white">Number of Results</label>
+            <select
+              className="input-style"
+              value={filters.numResults}
+              onChange={(e) => handleFilterChange('numResults', e.target.value)}
+            >
+              <option value="5">5 Articles</option>
+              <option value="10">10 Articles</option>
+              <option value="15">15 Articles</option>
+              <option value="20">20 Articles</option>
+              <option value="25">25 Articles</option>
+              <option value="50">50 Articles</option>
+              <option value="100">100 Articles</option>
+            </select>
+          </div>
+          <div>
+            <label className="mb-2.5 block font-medium text-black dark:text-white">Date Range</label>
+            <select
+              className="input-style"
+              value={filters.dateRange}
+              onChange={(e) => handleFilterChange('dateRange', e.target.value)}
+            >
+              <option value="all">All Time</option>
+              <option value="today">Today</option>
+              <option value="week">Past Week</option>
+              <option value="month">Past Month</option>
+            </select>
+          </div>
+        </div>
+        <div className="mt-4 flex flex-wrap items-center justify-between gap-4">
+          <button
+            onClick={clearFilters}
+            className="button-secondary"
+          >
+            Clear Filters
+          </button>
+          
+          {posts.length > 0 && (
+            <div className="text-sm text-gray-600 dark:text-gray-400">
+              Found {posts.length} articles
+            </div>
+          )}
+        </div>
+      </div>
+
+      {error && (
+        <div className="mt-4 rounded-lg bg-red-50 p-4 text-red-500 dark:bg-red-500/10">
+          {error}
+        </div>
+      )}
+
       {posts.length > 0 && (
-        <div className="space-y-4 max-w-3xl mx-auto">
+        <div className="mt-4 grid grid-cols-1 gap-4">
           {posts.map((post: IPost) => (
             <div
               key={post._id.toString()}
-              className={`bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-200 w-full ${
-                post.used ? 'bg-gray-50' : ''
+              className={`card transition-all ${
+                post.used ? 'bg-opacity-50' : ''
               }`}
             >
-              <div className="flex w-full">
+              <div className="flex">
                 {post.image && (
-                  <div className="relative w-34 h-35 flex-shrink-0">
+                  <div className="relative h-48 w-48 flex-shrink-0">
                     <Image
                       src={post.image}
                       alt={post.title}
                       fill
-                      className="object-cover"
+                      className="rounded-l-lg object-cover"
                     />
                   </div>
                 )}
-                <div className="flex-1 p-6 flex flex-col">
-                  <div className="flex items-center justify-between mb-2">
-                    <div className="flex items-center gap-2">
-                      <span className="text-xs px-2 py-1 bg-gray-100 rounded-full text-gray-600">
+                <div className="flex flex-1 flex-col p-6">
+                  <div className="flex items-center justify-between gap-4">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span className="rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
                         {post.searchTerm}
                       </span>
-                      <span className="text-xs text-gray-500">{post.time}</span>
-                      <span className="text-xs font-medium text-gray-600 underline">
+                      <span className="text-xs text-gray-500 dark:text-gray-400">
+                        {post.time}
+                      </span>
+                      <span className="text-xs font-medium text-gray-600 dark:text-gray-300 hover:text-primary">
                         {post.source}
                       </span>
                     </div>
-                    <div className="flex items-center gap-4">
+                    <div className="flex items-center gap-3">
                       <button
                         onClick={() => toggleUsed(post._id.toString(), post.used || false)}
-                        className={`px-3 py-1 rounded-full text-xs font-medium transition-colors ${
+                        className={`rounded-full px-3 py-1 text-xs font-medium transition-colors ${
                           post.used
-                            ? 'bg-red-100 text-red-800 hover:bg-red-200'
-                            : 'bg-green-100 text-green-800 hover:bg-green-200'
+                            ? 'bg-success/10 text-success hover:bg-success/20'
+                            : 'bg-warning/10 text-warning hover:bg-warning/20'
                         }`}
                       >
                         {post.used ? 'Used' : 'Unused'}
                       </button>
                     </div>
                   </div>
-                  <div className="flex-grow">
-                    <span className="text-base font-medium leading-relaxed text-gray-800">
-                      {post.title}
-                    </span>
-                  </div>
-                  <div className="flex justify-end gap-2 mt-4">
+                  <h3 className="mt-2 flex-grow text-lg font-semibold text-black dark:text-white">
+                    {post.title}
+                  </h3>
+                  <div className="mt-4 flex justify-end gap-3">
                     <Link
                       href={post.link}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg text-sm transition-colors"
+                      className="button-primary"
                     >
-                      Read
+                      Read Article
                     </Link>
                     <button
                       onClick={() => deletePost(post._id.toString())}
-                      className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg text-sm transition-colors"
+                      className="button-secondary text-danger hover:bg-danger/10"
                     >
                       Delete
                     </button>
