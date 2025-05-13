@@ -7,8 +7,8 @@ import { NavBar } from "./navbar";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Dashboard App",
-  description: "A simple dashboard with Google authentication",
+  title: "News Dashboard",
+  description: "Modern news aggregation dashboard",
 };
 
 export default function RootLayout({
@@ -17,11 +17,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className={inter.className}>
+    <html lang="en" suppressHydrationWarning>
+      <body className={`${inter.className} bg-whiten dark:bg-boxdark-2 dark:text-bodydark`}>
         <Providers>
-          <NavBar />
-          <main>{children}</main>
+          <div className="flex h-screen overflow-hidden">
+            <div className="relative flex flex-1 flex-col overflow-y-auto overflow-x-hidden">
+              <NavBar />
+              <main className="h-full">
+                {children}
+              </main>
+            </div>
+          </div>
         </Providers>
       </body>
     </html>

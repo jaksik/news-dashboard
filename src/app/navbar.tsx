@@ -2,31 +2,53 @@
 
 import { useSession, signOut } from "next-auth/react";
 import Link from "next/link";
+import Image from "next/image";
 
 export function NavBar() {
   const { data: session } = useSession();
 
   return (
-    <nav className="bg-gray-800 text-white p-4">
-      <div className="container mx-auto flex justify-between items-center">
-        <Link href="/" className="text-xl font-bold">
-          Dashboard App
-        </Link>
+    <nav className="sticky top-0 z-50 bg-white dark:bg-boxdark border-b border-stroke dark:border-strokedark">
+      <div className="flex items-center justify-between px-4 py-4 shadow-2">
+        <div className="flex items-center gap-2">
+          <Link href="/" className="flex items-center gap-2">
+            <Image src="/globe.svg" width={32} height={32} alt="Logo" />
+            <span className="text-xl font-semibold text-bodydark2">News Dashboard</span>
+          </Link>
+        </div>
+
         <div className="flex items-center gap-4">
           {session ? (
             <>
-              <Link href="/dashboard" className="hover:text-gray-300">
+              <Link 
+                href="/dashboard" 
+                className="text-sm font-medium text-bodydark2 hover:text-primary"
+              >
                 Dashboard
               </Link>
-              <button
-                onClick={() => signOut()}
-                className="hover:text-gray-300"
-              >
-                Sign Out
-              </button>
+              <div className="flex items-center gap-3">
+                {session.user?.image && (
+                  <Image
+                    src={session.user.image}
+                    width={32}
+                    height={32}
+                    alt="User"
+                    className="rounded-full"
+                  />
+                )}
+                <button
+                  onClick={() => signOut()}
+                  className="text-sm font-medium text-bodydark2 hover:text-primary"
+                >
+                  Sign Out
+                </button>
+              </div>
             </>
           ) : (
-            <Link href="/auth/signin" className="hover:text-gray-300">
+            <Link 
+              href="/auth/signin" 
+              className="button-primary"
+            >
               Sign In
             </Link>
           )}
