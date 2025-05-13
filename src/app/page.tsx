@@ -16,7 +16,7 @@ export default async function Home() {
         </Link>
       ) : (
         <Link
-          href="/dashboard"
+          href="/admin"
           className="rounded-lg bg-blue-500 px-6 py-3 text-white hover:bg-blue-600"
         >
           Go to Dashboard

@@ -11,7 +11,8 @@ export function NavBar() {
     <nav className="sticky top-0 z-50 bg-white dark:bg-boxdark border-b border-stroke dark:border-strokedark">
       <div className="flex items-center justify-between px-4 py-4 shadow-2">
         <div className="flex items-center gap-2">
-          <Link href="/" className="flex items-center gap-2">
+          {/* Add pl-12 to account for the hamburger button */}
+          <Link href="/" className="flex items-center gap-2 pl-12">
             <Image src="/globe.svg" width={32} height={32} alt="Logo" />
             <span className="text-xl font-semibold text-bodydark2">News Dashboard</span>
           </Link>
@@ -21,7 +22,7 @@ export function NavBar() {
           {session ? (
             <>
               <Link 
-                href="/dashboard" 
+                href="/admin" 
                 className="text-sm font-medium text-bodydark2 hover:text-primary"
               >
                 Dashboard
