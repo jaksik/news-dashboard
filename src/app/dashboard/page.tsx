@@ -136,6 +136,29 @@ export default function Dashboard() {
     }
   };
 
+  const deletePost = async (postId: string) => {
+    // if (!confirm('Are you sure you want to delete this article?')) {
+    //   return;
+    // }
+    
+    try {
+      const response = await fetch(`/api/posts?postId=${postId}`, {
+        method: 'DELETE'
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to delete article');
+      }
+
+      // Remove the post from the posts state
+      setPosts(currentPosts => 
+        currentPosts.filter(post => post._id.toString() !== postId)
+      );
+    } catch (error) {
+      console.error('Error deleting article:', error);
+    }
+  };
+
   return (
     <div className="p-8 max-w-7xl mx-auto">
       <div className="mb-8">
@@ -185,6 +208,9 @@ export default function Dashboard() {
                 <option value="15">15 Articles</option>
                 <option value="20">20 Articles</option>
                 <option value="25">25 Articles</option>
+                <option value="25">25 Articles</option>
+                <option value="50">50 Articles</option>
+                <option value="100">100 Articles</option>
               </select>
             </div>
             <div>
@@ -279,16 +305,21 @@ export default function Dashboard() {
                       {post.title}
                     </span>
                   </div>
-                  <div className="flex justify-end mt-4">
+                  <div className="flex justify-end gap-2 mt-4">
                     <Link
                       href={post.link}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-blue-500 hover:text-blue-600 text-sm"
-                      onClick={(e) => e.stopPropagation()}
+                      className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg text-sm transition-colors"
                     >
-                      Read Article →
+                      Read
                     </Link>
+                    <button
+                      onClick={() => deletePost(post._id.toString())}
+                      className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg text-sm transition-colors"
+                    >
+                      Delete
+                    </button>
                   </div>
                 </div>
               </div>
