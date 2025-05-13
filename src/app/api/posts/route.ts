@@ -104,3 +104,33 @@ export async function PATCH(request: Request) {
     );
   }
 }
+
+export async function DELETE(request: Request) {
+  try {
+    const { searchParams } = new URL(request.url);
+    const postId = searchParams.get('postId');
+    
+    if (!postId) {
+      return NextResponse.json({ error: 'Post ID is required' }, { status: 400 });
+    }
+
+    console.log(`API: Deleting post ${postId}`);
+    await dbConnect();
+    
+    const post = await Post.findByIdAndDelete(postId);
+
+    if (!post) {
+      console.log(`API: Post ${postId} not found`);
+      return NextResponse.json({ error: 'Post not found' }, { status: 404 });
+    }
+
+    console.log(`API: Successfully deleted post ${postId}`);
+    return NextResponse.json({ success: true });
+  } catch (error) {
+    console.error('API Error deleting post:', error);
+    return NextResponse.json(
+      { error: 'Failed to delete post', details: error instanceof Error ? error.message : 'Unknown error' },
+      { status: 500 }
+    );
+  }
+}
