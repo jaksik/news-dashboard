@@ -2,7 +2,6 @@
 
 import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
-import { ArticleManager } from "@/components/ArticleManager";
 
 export default function Dashboard() {
   const { status } = useSession();
@@ -24,7 +23,7 @@ export default function Dashboard() {
           </h2>
         </div>
       </div>
-      <ArticleManager />
+     
     </div>
   );
 }
