@@ -36,6 +36,20 @@ const menuItems: MenuItem[] = [
       },
     ],
   },
+  {
+    name: "Tools",
+    icon: "/settings.svg",
+    items: [
+      {
+        name: "Create",
+        path: "/admin/tools/create",
+      },
+      {
+        name: "Manage",
+        path: "/admin/tools/manage",
+      },
+    ],
+  },
 ];
 
 export function AdminNav() {
