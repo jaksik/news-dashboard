@@ -2,7 +2,7 @@
 
 import { useState, FormEvent } from "react";
 
-export function ToolCreator() {
+export default function ToolCreator() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   
@@ -80,7 +80,7 @@ export function ToolCreator() {
       )}
 
       <div className="rounded-lg border border-stroke bg-white p-4 shadow-default dark:border-strokedark dark:bg-boxdark md:p-6 2xl:p-8">
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="p-6.5">
           <div>
             <label className="mb-2.5 block font-medium text-black dark:text-white">
               Tool Name

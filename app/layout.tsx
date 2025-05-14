@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Providers from "./providers";
-import { NavBar } from "./navbar";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,15 +17,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${inter.className} bg-whiten dark:bg-boxdark-2 dark:text-bodydark`}>
+      <body className={`${inter.className} bg-white dark:bg-gray-900`}>
         <Providers>
-          <div className="flex h-screen overflow-hidden">
-            <div className="relative flex flex-1 flex-col overflow-y-auto overflow-x-hidden">
-              <NavBar />
-              <main className="h-full">
-                {children}
-              </main>
-            </div>
+          <div id="app-root">
+            {children}
           </div>
         </Providers>
       </body>
