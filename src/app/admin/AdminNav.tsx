@@ -23,17 +23,13 @@ const menuItems: MenuItem[] = [
     icon: "/window.svg",
   },
   {
-    name: "Articles",
+    name: "News",
     icon: "/file.svg",
     items: [
       {
-        name: "Discover",
-        path: "/admin/articles/discover",
-      },
-      {
-        name: "Manage",
-        path: "/admin/articles/manage",
-      },
+        name: "Sumbit Article",
+        path: "/admin/news/create",
+      }
     ],
   },
   {
@@ -41,15 +37,29 @@ const menuItems: MenuItem[] = [
     icon: "/settings.svg",
     items: [
       {
-        name: "Create",
+        name: "Submit Tool",
         path: "/admin/tools/create",
       },
       {
-        name: "Manage",
+        name: "Manage Tools",
         path: "/admin/tools/manage",
       },
     ],
   },
+    {
+    name: "Articles",
+    icon: "/file.svg",
+    items: [
+      {
+        name: "Discover Articles",
+        path: "/admin/articles/discover",
+      },
+      {
+        name: "Manage Articles",
+        path: "/admin/articles/manage",
+      },
+    ],
+  }
 ];
 
 export function AdminNav() {
